@@ -1,72 +1,14 @@
 package application;
 
-import model.dao.DaoFactory;
-import model.dao.SellerDao;
-import model.entities.Department;
-import model.entities.Seller;
+import model.util.CreateSellerFindAll;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.text.ParseException;
 
 public class Program {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
 
-        Scanner sc = new Scanner(System.in);
+        CreateSellerFindAll.createUser();
 
-        SellerDao sellerDao = DaoFactory.createSellerDao();
-
-        System.out.println("===== TEST 1: seller findById ===== ");
-        Seller seller = sellerDao.findById(3);
-        System.out.println(seller);
-        System.out.println();
-
-        System.out.println("===== TEST 2: seller findByDepartment ===== ");
-        Department department = new Department(1, null);
-        List<Seller> list = sellerDao.findByDepartment(department);
-        for (Seller obj : list) {
-            System.out.println(obj);
-        }
-        System.out.println();
-
-        System.out.println("===== TEST 3: seller findAll ===== ");
-        list = sellerDao.findAll();
-        for (Seller obj : list) {
-            System.out.println(obj);
-        }
-        System.out.println();
-
-        System.out.println("===== TEST 4: seller insert ===== ");
-        Seller newSeller = new Seller(null, "Lucas Araujo", "lucas@gmail.com", new Date(), 4000.0, department);
-        sellerDao.insert(newSeller);
-        System.out.println("Insert! New id = " + newSeller.getId());
-        System.out.println();
-
-        System.out.println("===== TEST 5: seller update ===== ");
-        seller = sellerDao.findById(10);
-        seller.setName("Giovanna");
-        seller.setEmail("gigi@hotmail.com");
-        sellerDao.update(seller);
-        System.out.println("Update completed");
-        seller = sellerDao.findById(10);
-        System.out.println(seller);
-        System.out.println();
-
-        System.out.println("===== TEST 6: seller delete ===== ");
-        System.out.print("Enter id for delete test: ");
-        int id = sc.nextInt();
-        sellerDao.deleteById(id);
-        System.out.println("Delete completed");
-        System.out.println();
-
-        System.out.println("===== New list with delete byId =====");
-        list = sellerDao.findAll();
-        for (Seller obj : list) {
-            System.out.println(obj);
-        }
-        System.out.println();
-
-        sc.close();
     }
 }
