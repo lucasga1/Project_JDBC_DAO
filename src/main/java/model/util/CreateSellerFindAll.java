@@ -36,7 +36,7 @@ public class CreateSellerFindAll {
 
         System.out.print("Department Id: ");
         int dep = sc.nextInt();
-
+        System.out.println();
         Department department = new Department(dep, null);
 
         Seller newSeller = new Seller(null, name, email, date, baseSalary, department);
@@ -47,6 +47,5 @@ public class CreateSellerFindAll {
         for (Seller obj : list) {
             System.out.println(obj.getName());
         }
-        System.out.println(list);
     }
 }
