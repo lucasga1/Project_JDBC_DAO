@@ -20,6 +20,24 @@ public class SellerDaoJDBC implements SellerDao {
         this.conn = conn;
     }
 
+    private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
+        Seller objSlr = new Seller();
+        objSlr.setId(rs.getInt("Id"));
+        objSlr.setName(rs.getString("Name"));
+        objSlr.setEmail(rs.getString("Email"));
+        objSlr.setBaseSalary(rs.getDouble("BaseSalary"));
+        objSlr.setBirthDate(rs.getDate("BirthDate"));
+        objSlr.setDepartment(dep);
+        return objSlr;
+    }
+
+    private Department instantiateDepartment(ResultSet rs) throws SQLException {
+        Department dep = new Department();
+        dep.setId(rs.getInt("DepartmentId"));
+        dep.setName(rs.getString("DepName"));
+        return dep;
+    }
+
     @Override
     public void insert(Seller obj) {
         PreparedStatement st = null;
@@ -88,7 +106,18 @@ public class SellerDaoJDBC implements SellerDao {
 
     @Override
     public void deleteById(Integer id) {
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("DELETE FROM seller WHERE ID = ?");
 
+            st.setInt(1, id);
+            st.executeUpdate();
+
+        } catch (SQLException e){
+            throw new DbException(e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+        }
     }
 
     @Override
@@ -190,24 +219,6 @@ public class SellerDaoJDBC implements SellerDao {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }
-    }
-
-    private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
-        Seller objSlr = new Seller();
-        objSlr.setId(rs.getInt("Id"));
-        objSlr.setName(rs.getString("Name"));
-        objSlr.setEmail(rs.getString("Email"));
-        objSlr.setBaseSalary(rs.getDouble("BaseSalary"));
-        objSlr.setBirthDate(rs.getDate("BirthDate"));
-        objSlr.setDepartment(dep);
-        return objSlr;
-    }
-
-    private Department instantiateDepartment(ResultSet rs) throws SQLException {
-        Department dep = new Department();
-        dep.setId(rs.getInt("DepartmentId"));
-        dep.setName(rs.getString("DepName"));
-        return dep;
     }
 
 
