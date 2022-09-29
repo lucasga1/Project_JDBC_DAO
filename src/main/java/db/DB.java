@@ -23,6 +23,7 @@ public class DB {
             try {
                 conn = DriverManager.getConnection(url, user, pass);
                 System.out.println("Connected with database");
+                System.out.println();
 
             } catch (SQLException e) {
                 throw new DbException(e.getMessage());
